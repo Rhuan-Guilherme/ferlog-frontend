@@ -7,7 +7,7 @@ import {
 } from './styled';
 import { Eye, EyeSlash } from 'phosphor-react';
 
-export function LoginForm() {
+export function RegisterForm() {
   const [viewPassword, setViewPassword] = useState('password');
 
   const handlePasswordVisibility = (
@@ -20,8 +20,12 @@ export function LoginForm() {
   return (
     <FormContainer>
       <h1>
-        Entre em <br /> sua conta
+        Crie <br /> sua conta
       </h1>
+      <InputContent>
+        <label htmlFor="">Nome</label>
+        <input type="text" />
+      </InputContent>
       <InputContent>
         <label htmlFor="">Email</label>
         <input type="text" />
@@ -29,7 +33,6 @@ export function LoginForm() {
       <InputContent>
         <label htmlFor="">Senha</label>
         <input type={viewPassword} />
-
         <ButtonVisibility onClick={handlePasswordVisibility}>
           {viewPassword === 'password' ? (
             <EyeSlash size={20} />
