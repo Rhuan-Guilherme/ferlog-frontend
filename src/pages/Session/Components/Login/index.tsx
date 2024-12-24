@@ -1,6 +1,22 @@
-import { ButtonLogin, FormContainer, InputContent } from './styled';
+import { useState } from 'react';
+import {
+  ButtonLogin,
+  ButtonVisibility,
+  FormContainer,
+  InputContent,
+} from './styled';
+import { Eye, EyeSlash } from 'phosphor-react';
 
 export function Login() {
+  const [viewPassword, setViewPassword] = useState('password');
+
+  const handlePasswordVisibility = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    setViewPassword(viewPassword === 'password' ? 'text' : 'password');
+  };
+
   return (
     <FormContainer>
       <h1>
@@ -8,11 +24,19 @@ export function Login() {
       </h1>
       <InputContent>
         <label htmlFor="">Email</label>
-        <input type="text" placeholder="E-mail" />
+        <input type="text" />
       </InputContent>
       <InputContent>
         <label htmlFor="">Senha</label>
-        <input type="password" placeholder="Senha" />
+        <input type={viewPassword} />
+
+        <ButtonVisibility onClick={handlePasswordVisibility}>
+          {viewPassword === 'password' ? (
+            <EyeSlash size={20} />
+          ) : (
+            <Eye size={20} />
+          )}
+        </ButtonVisibility>
       </InputContent>
       <div>
         <ButtonLogin>ENTRAR</ButtonLogin>

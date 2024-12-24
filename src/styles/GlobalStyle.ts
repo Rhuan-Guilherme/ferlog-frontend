@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.white}
   }
 
-  :focus{
+  :focus-visible{
     outline: none;
     box-shadow: 0px 0px 2px 1px ${(props) => props.theme.blue[500]};
   }

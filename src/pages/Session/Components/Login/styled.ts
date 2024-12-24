@@ -14,6 +14,7 @@ export const FormContainer = styled.form`
 `;
 
 export const InputContent = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -38,4 +39,14 @@ export const ButtonLogin = styled.button`
   &:hover {
     background-color: ${(props) => props.theme.blue[700]};
   }
+`;
+
+export const ButtonVisibility = styled.button`
+  padding: 1rem;
+  cursor: pointer;
+  position: absolute;
+  right: 0.1rem;
+  top: 1.7rem;
+  line-height: 0;
+  background-color: transparent;
 `;
