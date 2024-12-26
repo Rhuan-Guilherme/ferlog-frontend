@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   ButtonLogin,
   ButtonVisibility,
@@ -6,9 +6,20 @@ import {
   InputContent,
 } from './styled';
 import { Eye, EyeSlash } from 'phosphor-react';
+import { useForm } from 'react-hook-form';
+import { userContext } from '../../../../context/UserContext';
+
+interface FormProps {
+  email: string;
+  password: string;
+}
 
 export function LoginForm() {
-  const [viewPassword, setViewPassword] = useState('password');
+  const { authenticateUser } = useContext(userContext);
+  const { register, handleSubmit } = useForm<FormProps>();
+  const [viewPassword, setViewPassword] = useState<'password' | 'text'>(
+    'password'
+  );
 
   const handlePasswordVisibility = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -17,18 +28,22 @@ export function LoginForm() {
     setViewPassword(viewPassword === 'password' ? 'text' : 'password');
   };
 
+  async function handleLoginSubmit({ email, password }: FormProps) {
+    authenticateUser(email, password);
+  }
+
   return (
-    <FormContainer>
+    <FormContainer onSubmit={handleSubmit(handleLoginSubmit)}>
       <h1>
         Entre em <br /> sua conta
       </h1>
       <InputContent>
-        <label htmlFor="">Email</label>
-        <input type="text" />
+        <label htmlFor="email">Email</label>
+        <input type="email" id="email" {...register('email')} />
       </InputContent>
       <InputContent>
-        <label htmlFor="">Senha</label>
-        <input type={viewPassword} />
+        <label htmlFor="passwrod">Senha</label>
+        <input type={viewPassword} id="password" {...register('password')} />
 
         <ButtonVisibility onClick={handlePasswordVisibility}>
           {viewPassword === 'password' ? (
@@ -39,7 +54,7 @@ export function LoginForm() {
         </ButtonVisibility>
       </InputContent>
       <div>
-        <ButtonLogin>ENTRAR</ButtonLogin>
+        <ButtonLogin type="submit">ENTRAR</ButtonLogin>
       </div>
     </FormContainer>
   );

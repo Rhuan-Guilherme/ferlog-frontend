@@ -3,15 +3,18 @@ import { Router } from './Router';
 import { GlobalStyle } from './styles/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import { defaultTheme } from './styles/Theme';
+import { UserProvider } from './context/UserContext';
 
 function App() {
   return (
     <BrowserRouter>
-      <ThemeProvider theme={defaultTheme}>
-        <Router />
+      <UserProvider>
+        <ThemeProvider theme={defaultTheme}>
+          <Router />
 
-        <GlobalStyle />
-      </ThemeProvider>
+          <GlobalStyle />
+        </ThemeProvider>
+      </UserProvider>
     </BrowserRouter>
   );
 }
