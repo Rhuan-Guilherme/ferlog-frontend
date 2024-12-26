@@ -15,6 +15,7 @@ interface User {
   id: string;
   name: string;
   email: string;
+  role: 'ADMIN' | 'MEMBER';
 }
 
 interface UserProviderTypes {
