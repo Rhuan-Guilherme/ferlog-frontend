@@ -5,6 +5,12 @@ export const SessionContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   height: 100vh;
   padding: 10px;
+
+  @media (max-width: 1000px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 `;
 
 export const SessionContent = styled.section`
@@ -18,6 +24,15 @@ export const SessionContent = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 1000px) {
+    flex: 1;
+    width: auto;
+    img {
+      width: 100px;
+      height: 100px;
+    }
+  }
 `;
 
 export const SessionForm = styled.div`
