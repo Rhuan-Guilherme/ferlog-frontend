@@ -34,6 +34,7 @@ export function UserProvider({ children }: UserProviderProps) {
   const [loged, setLoged] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate()
+  
 
   const getUser = useCallback(async (token: string) => {
     try {
