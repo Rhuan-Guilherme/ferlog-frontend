@@ -1,7 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { Session } from './pages/Session';
 import { HomePage } from './pages/Home/HomePage';
-import { HomeLayout } from './pages/layout/HomeLayout';
+import { HomeLayout } from './pages/_layout/HomeLayout';
+import { UsersPage } from './pages/UsersPage/userPage';
 
 export function Router() {
   return (
@@ -10,7 +11,7 @@ export function Router() {
 
       <Route path='/' element={<HomeLayout />}>
        <Route path='/' element={<HomePage />} /> 
-       <Route path='/table' element={<h1>Table</h1>} /> 
+       <Route path='/userspage' element={<UsersPage />} /> 
       </Route>
     </Routes>
   );

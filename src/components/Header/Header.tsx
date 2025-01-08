@@ -1,5 +1,6 @@
 import { HeaderContainer, NavMenu } from "./styled";
-import logo from '../../../../assets/logo-preta.svg'
+import logo from '../../assets/logo-preta.svg'
+import { Link } from "react-router-dom";
 
 export function Header() {
   return (
@@ -7,8 +8,8 @@ export function Header() {
       <img src={logo} />
       <NavMenu>
         <ul>
-          <li>Notas</li>
-          <li>Usuários</li>
+          <Link to="/">Notas</Link>
+          <Link to="/userspage">Usuários</Link>
         </ul>
       </NavMenu>
     </HeaderContainer>
