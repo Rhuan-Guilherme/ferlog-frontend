@@ -31,6 +31,7 @@ export const NavMenu = styled.nav`
       background-color: ${props => props.theme.blue['400']};
       color: ${props => props.theme.white};
       transition: all 0.2s ease-in-out;
+
     }
   }
 `

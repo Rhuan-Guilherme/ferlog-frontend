@@ -43,11 +43,10 @@ export function UserProvider({ children }: UserProviderProps) {
       });
       setUser(response.data);
       setLoged(true);
-      navigate('/')
     } catch (error) {
       console.error(error);
     }
-  }, [navigate]);
+  }, []);
 
   const authenticateUser = useCallback(
     async (email: string, password: string) => {
@@ -56,12 +55,13 @@ export function UserProvider({ children }: UserProviderProps) {
         const token = reponse.data.token;
         localStorage.setItem('@ferlog/token', token);
         getUser(token);
+        navigate('/')
       } catch (error: any) {
         setError(error.response.data.message);
         console.error(error);
       }
     },
-    [getUser]
+    [getUser, navigate]
   );
 
   useEffect(() => {
