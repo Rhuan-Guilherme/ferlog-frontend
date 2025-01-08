@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   createContext,
   ReactNode,
@@ -6,6 +7,7 @@ import {
   useState,
 } from 'react';
 import { api } from '../lib/axios';
+import { useNavigate } from 'react-router-dom';
 
 interface UserProviderProps {
   children: ReactNode;
@@ -22,6 +24,7 @@ interface UserProviderTypes {
   authenticateUser: (email: string, password: string) => void;
   loged: boolean;
   user: User | null;
+  error: string 
 }
 
 export const userContext = createContext({} as UserProviderTypes);
@@ -29,6 +32,8 @@ export const userContext = createContext({} as UserProviderTypes);
 export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState(null);
   const [loged, setLoged] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate()
 
   const getUser = useCallback(async (token: string) => {
     try {
@@ -37,11 +42,11 @@ export function UserProvider({ children }: UserProviderProps) {
       });
       setUser(response.data);
       setLoged(true);
-      console.log(response.data);
+      navigate('/')
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [navigate]);
 
   const authenticateUser = useCallback(
     async (email: string, password: string) => {
@@ -50,7 +55,8 @@ export function UserProvider({ children }: UserProviderProps) {
         const token = reponse.data.token;
         localStorage.setItem('@ferlog/token', token);
         getUser(token);
-      } catch (error) {
+      } catch (error: any) {
+        setError(error.response.data.message);
         console.error(error);
       }
     },
@@ -69,7 +75,7 @@ export function UserProvider({ children }: UserProviderProps) {
   }, [getUser]);
 
   return (
-    <userContext.Provider value={{ loged, user, authenticateUser }}>
+    <userContext.Provider value={{ loged, user, error, authenticateUser }}>
       {children}
     </userContext.Provider>
   );

@@ -15,11 +15,13 @@ interface FormProps {
 }
 
 export function LoginForm() {
-  const { authenticateUser } = useContext(userContext);
+  const { authenticateUser, error } = useContext(userContext);
   const { register, handleSubmit } = useForm<FormProps>();
   const [viewPassword, setViewPassword] = useState<'password' | 'text'>(
     'password'
   );
+
+  
 
   const handlePasswordVisibility = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -53,8 +55,9 @@ export function LoginForm() {
           )}
         </ButtonVisibility>
       </InputContent>
+        {error && <p style={{color: 'red'}}>{error}</p>}
       <div>
-        <ButtonLogin type="submit">ENTRAR</ButtonLogin>
+        <ButtonLogin  type="submit">ENTRAR</ButtonLogin>
       </div>
     </FormContainer>
   );
