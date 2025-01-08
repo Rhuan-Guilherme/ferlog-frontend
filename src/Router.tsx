@@ -5,6 +5,7 @@ export function Router() {
   return (
     <Routes>
       <Route path="/user/*" element={<Session />} />
+      <Route path='/' element={<h1>Home page</h1>} />
     </Routes>
   );
 }
