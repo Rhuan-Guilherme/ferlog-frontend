@@ -1,5 +1,12 @@
-import { Button, Dialog, Flex, Text, TextField } from '@radix-ui/themes';
-import { useForm } from 'react-hook-form';
+import {
+  Button,
+  Dialog,
+  Flex,
+  Select,
+  Text,
+  TextField,
+} from '@radix-ui/themes';
+import { Controller, useForm } from 'react-hook-form';
 import { api } from '../../../../lib/axios';
 
 interface UserRegisterProps {
@@ -10,7 +17,13 @@ interface UserRegisterProps {
 }
 
 export function RegisterModal() {
-  const { register, handleSubmit, reset } = useForm<UserRegisterProps>();
+  const { register, handleSubmit, control, reset } = useForm<UserRegisterProps>(
+    {
+      defaultValues: {
+        cargo: 'Motorista',
+      },
+    }
+  );
 
   async function handleRegisterSubmit(data: UserRegisterProps) {
     try {
@@ -18,6 +31,7 @@ export function RegisterModal() {
         name: data.email,
         email: data.email,
         password: data.telefone.slice(-4),
+        phone: data.telefone,
         cargo: data.cargo,
       });
     } catch (error) {
@@ -54,7 +68,19 @@ export function RegisterModal() {
             <Text as="div" size="2" mb="1" weight="bold">
               Cargo
             </Text>
-            <TextField.Root {...register('cargo')} />
+            <Controller
+              name="cargo"
+              control={control}
+              render={({ field }) => (
+                <Select.Root value={field.value} onValueChange={field.onChange}>
+                  <Select.Trigger />
+                  <Select.Content position="popper">
+                    <Select.Item value="Motorista">Motorista</Select.Item>
+                    <Select.Item value="Ajudante">Ajudante</Select.Item>
+                  </Select.Content>
+                </Select.Root>
+              )}
+            />
           </label>
         </Flex>
 

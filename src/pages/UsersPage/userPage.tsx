@@ -10,6 +10,7 @@ interface UserProps {
   name: string;
   email: string;
   cargo: string;
+  phone: string;
   role: string;
 }
 
@@ -58,7 +59,7 @@ export function UsersPage() {
               <Table.Row key={user.id}>
                 <Table.RowHeaderCell>{user.name}</Table.RowHeaderCell>
                 <Table.Cell>{user.email}</Table.Cell>
-                <Table.Cell>(61) 99999-9999</Table.Cell>
+                <Table.Cell>{user.phone}</Table.Cell>
                 <Table.Cell>{user.cargo}</Table.Cell>
                 <Table.Cell>
                   <DropdownMenu.Root>
