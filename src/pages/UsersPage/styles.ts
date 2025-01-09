@@ -13,6 +13,16 @@ interface TypeButton{
   variant: 'delete' | 'normal';
 }
 
+export const SectionContainer = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button{
+    cursor: pointer;
+  }
+`
+
 export const DropDonwButtons = styled.button<TypeButton>`
   display: flex;
   align-items: center;
