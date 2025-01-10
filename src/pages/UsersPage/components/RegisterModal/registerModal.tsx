@@ -8,6 +8,7 @@ import {
 } from '@radix-ui/themes';
 import { Controller, useForm } from 'react-hook-form';
 import { api } from '../../../../lib/axios';
+import { toast } from 'sonner';
 
 interface UserRegisterProps {
   name: string;
@@ -34,7 +35,19 @@ export function RegisterModal() {
         phone: data.telefone,
         cargo: data.cargo,
       });
-    } catch (error) {
+      toast.success('Usuário cadastrado com sucesso!', {
+        duration: 4000,
+        className: 'toast',
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const errorMessage = error.response.data.message;
+      console.log(errorMessage);
+      toast.error(errorMessage, {
+        duration: 4000,
+        style: error,
+        className: 'toast',
+      });
       console.error(error);
     }
     reset();

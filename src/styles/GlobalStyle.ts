@@ -21,4 +21,8 @@ export const GlobalStyle = createGlobalStyle`
     border: none;
     font-family: 'Roboto', sans-serif;
   }
+
+  .toast{
+    padding: 20px;
+  }
 `;
