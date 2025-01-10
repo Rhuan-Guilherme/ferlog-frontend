@@ -27,6 +27,16 @@ export function UsersPage() {
     setUsers(response.data.user);
   }
 
+  async function deleteUser(id: string) {
+    await api.delete(`/user/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('@ferlog/token'),
+      },
+    });
+
+    getUsers();
+  }
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -78,7 +88,10 @@ export function UsersPage() {
                       </DropdownMenu.Item>
                       <DropdownMenu.Separator />
                       <DropdownMenu.Item asChild>
-                        <DropDonwButtons variant="delete">
+                        <DropDonwButtons
+                          variant="delete"
+                          onClick={() => deleteUser(user.id)}
+                        >
                           <Trash size={15} />
                           Excluir
                         </DropDonwButtons>
