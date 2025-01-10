@@ -39,7 +39,7 @@ export function UsersPage() {
           <Dialog.Trigger>
             <Button>cadastrar</Button>
           </Dialog.Trigger>
-          <RegisterModal />
+          <RegisterModal getUsers={getUsers} />
         </Dialog.Root>
       </SectionContainer>
       <Table.Root variant="surface">

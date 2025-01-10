@@ -17,7 +17,11 @@ interface UserRegisterProps {
   cargo: string;
 }
 
-export function RegisterModal() {
+interface RegisterProps {
+  getUsers: () => void;
+}
+
+export function RegisterModal({ getUsers }: RegisterProps) {
   const { register, handleSubmit, control, reset } = useForm<UserRegisterProps>(
     {
       defaultValues: {
@@ -39,6 +43,7 @@ export function RegisterModal() {
         duration: 4000,
         className: 'toast',
       });
+      getUsers();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       const errorMessage = error.response.data.message;
