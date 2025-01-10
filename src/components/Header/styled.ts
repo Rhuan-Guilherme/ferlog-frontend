@@ -17,22 +17,56 @@ export const HeaderContainer = styled.header`
 `
 
 export const NavMenu = styled.nav`
+  display: flex;
+  gap: 10px;
+
   ul{
     display: flex;
     list-style-type: none;
-    gap: 20px;
+    gap: 10px;
 
     li{
       padding: 10px;
       border-radius: 5px;
+      transition: all 0.2s ease-in-out;
+
+
+       a {
+        text-decoration: none;
+        color: ${props => props.theme.gray['700']};
+        font-weight: 700;
+      }
     }
 
     li:hover{
       cursor: pointer;
       background-color: ${props => props.theme.blue['400']};
-      color: ${props => props.theme.white};
-      transition: all 0.2s ease-in-out;
 
+      a{
+        color: ${props => props.theme.white};
+      }
     }
   }
+`
+
+export const DropDonwButtons = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 5px;
+  cursor: pointer;
+  background-color: transparent;
+  padding: 10px;
+  border-radius: 4px ;
+
+  &:hover{
+    background-color: ${props => props.theme.red['500']};
+    transition: all 0.1s ease-in-out;
+    color: ${props => props.theme.gray['100']};
+  }
+
+`
+
+export const UserProfileButton = styled.button`
+  cursor: pointer;
 `

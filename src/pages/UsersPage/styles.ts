@@ -7,6 +7,18 @@ export const PageConteiner = styled.main`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (max-width: 1200px) {
+    padding: 0 100px;
+  }
+
+  @media (max-width: 1000px) {
+    padding: 0 60px;
+  }
+
+  @media (max-width: 800px) {
+    padding: 0 20px;
+  }
 `
 
 interface TypeButton{

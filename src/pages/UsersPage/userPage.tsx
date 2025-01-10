@@ -1,9 +1,11 @@
 import { Button, Dialog, DropdownMenu, Table } from '@radix-ui/themes';
-import { Pencil, Trash } from 'phosphor-react';
+import { Trash } from 'phosphor-react';
 import { DropDonwButtons, PageConteiner, SectionContainer } from './styles';
 import { RegisterModal } from './components/RegisterModal/registerModal';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { api } from '../../lib/axios';
+import { userContext } from '../../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 interface UserProps {
   id: string;
@@ -15,7 +17,9 @@ interface UserProps {
 }
 
 export function UsersPage() {
+  const { loged } = useContext(userContext);
   const [users, setUsers] = useState<UserProps[]>([]);
+  const navigate = useNavigate();
 
   async function getUsers() {
     const response = await api.get('/user/all', {
@@ -41,6 +45,10 @@ export function UsersPage() {
     getUsers();
   }, []);
 
+  if (!loged) {
+    navigate('/user');
+    return null;
+  }
   return (
     <PageConteiner>
       <SectionContainer>
@@ -80,13 +88,6 @@ export function UsersPage() {
                       </Button>
                     </DropdownMenu.Trigger>
                     <DropdownMenu.Content>
-                      <DropdownMenu.Item asChild>
-                        <DropDonwButtons variant="normal">
-                          <Pencil size={15} />
-                          Editar
-                        </DropDonwButtons>
-                      </DropdownMenu.Item>
-                      <DropdownMenu.Separator />
                       <DropdownMenu.Item asChild>
                         <DropDonwButtons
                           variant="delete"

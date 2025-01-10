@@ -8,11 +8,12 @@ import { useContext } from 'react';
 import { userContext } from '../../context/UserContext';
 
 export function Session() {
-  const navigate = useNavigate()
-  const {loged} = useContext(userContext)
+  const navigate = useNavigate();
+  const { loged } = useContext(userContext);
 
-  if(loged) {
-    navigate('/')
+  if (loged) {
+    navigate('/');
+    return null;
   }
   return (
     <SessionContainer>

@@ -9,9 +9,9 @@ export function Router() {
     <Routes>
       <Route path="/user/*" element={<Session />} />
 
-      <Route path='/' element={<HomeLayout />}>
-       <Route path='/' element={<HomePage />} /> 
-       <Route path='/userspage' element={<UsersPage />} /> 
+      <Route path="/" element={<HomeLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/userspage" element={<UsersPage />} />
       </Route>
     </Routes>
   );

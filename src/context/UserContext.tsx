@@ -17,14 +17,16 @@ interface User {
   id: string;
   name: string;
   email: string;
+  cargo: string;
   role: 'ADMIN' | 'MEMBER';
 }
 
 interface UserProviderTypes {
   authenticateUser: (email: string, password: string) => void;
+  logoffUser: () => void;
   loged: boolean;
   user: User | null;
-  error: string 
+  error: string;
 }
 
 export const userContext = createContext({} as UserProviderTypes);
@@ -33,8 +35,7 @@ export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState(null);
   const [loged, setLoged] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
 
   const getUser = useCallback(async (token: string) => {
     try {
@@ -55,7 +56,7 @@ export function UserProvider({ children }: UserProviderProps) {
         const token = reponse.data.token;
         localStorage.setItem('@ferlog/token', token);
         getUser(token);
-        navigate('/')
+        navigate('/');
       } catch (error: any) {
         setError(error.response.data.message);
         console.error(error);
@@ -64,19 +65,27 @@ export function UserProvider({ children }: UserProviderProps) {
     [getUser, navigate]
   );
 
+  const logoffUser = useCallback(() => {
+    localStorage.removeItem('@ferlog/token');
+    setLoged(false);
+    setUser(null);
+    setError('');
+    navigate('/user');
+  }, [navigate]);
+
   useEffect(() => {
     const token = localStorage.getItem('@ferlog/token');
     if (token) {
       getUser(token);
     } else {
-      localStorage.removeItem('@ferlog/token');
-      setLoged(false);
-      setUser(null);
+      logoffUser();
     }
-  }, [getUser]);
+  }, [getUser, logoffUser]);
 
   return (
-    <userContext.Provider value={{ loged, user, error, authenticateUser }}>
+    <userContext.Provider
+      value={{ loged, user, error, authenticateUser, logoffUser }}
+    >
       {children}
     </userContext.Provider>
   );
