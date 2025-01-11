@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
 import { Session } from './pages/Session';
-import { HomePage } from './pages/Home/HomePage';
 import { HomeLayout } from './pages/_layout/HomeLayout';
 import { UsersPage } from './pages/UsersPage/userPage';
+import { NotesPage } from './pages/Notes/NotesPage';
 
 export function Router() {
   return (
@@ -10,7 +10,7 @@ export function Router() {
       <Route path="/user/*" element={<Session />} />
 
       <Route path="/" element={<HomeLayout />}>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<NotesPage />} />
         <Route path="/userspage" element={<UsersPage />} />
       </Route>
     </Routes>
