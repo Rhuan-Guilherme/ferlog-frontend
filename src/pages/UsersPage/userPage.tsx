@@ -52,7 +52,7 @@ export function UsersPage() {
   return (
     <PageConteiner>
       <SectionContainer>
-        <h2>Listagem de usuários</h2>
+        <h2>Lista de usuários</h2>
         <Dialog.Root>
           <Dialog.Trigger>
             <Button>cadastrar</Button>

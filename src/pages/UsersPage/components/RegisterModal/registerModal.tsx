@@ -33,7 +33,7 @@ export function RegisterModal({ getUsers }: RegisterProps) {
   async function handleRegisterSubmit(data: UserRegisterProps) {
     try {
       await api.post('/user/create', {
-        name: data.email,
+        name: data.name,
         email: data.email,
         password: data.telefone.slice(-4),
         phone: data.telefone,
