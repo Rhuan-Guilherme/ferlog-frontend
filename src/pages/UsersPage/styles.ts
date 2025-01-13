@@ -54,5 +54,4 @@ export const DropDonwButtons = styled.button<TypeButton>`
     transition: all 0.1s ease-in-out;
     color: ${props => props.theme.gray['100']};
   }
-
 `

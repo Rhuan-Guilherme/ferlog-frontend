@@ -35,7 +35,7 @@ export function RegisterNoteModal() {
             <Text as="div" size="2" mb="1" weight="bold">
               Data
             </Text>
-            <TextField.Root {...register('date')} />
+            <TextField.Root disabled {...register('date')} />
           </label>
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
