@@ -1,6 +1,7 @@
 import { Dialog, Flex, TextField, Text, Button } from '@radix-ui/themes';
 import { useForm } from 'react-hook-form';
 import { format } from 'date-fns';
+import { api } from '../../../lib/axios';
 
 interface FormNoteProps {
   date: string;
@@ -15,14 +16,34 @@ export function RegisterNoteModal() {
   const currentDate = new Date();
   const dateFormat = format(currentDate, 'dd/MM/yyyy');
 
-  const { register, handleSubmit } = useForm<FormNoteProps>({
+  const { register, handleSubmit, reset } = useForm<FormNoteProps>({
     defaultValues: {
       date: dateFormat,
     },
   });
 
-  function handleForm(data: FormNoteProps) {
-    console.log(data);
+  async function handleForm(data: FormNoteProps) {
+    try {
+      await api.post(
+        '/note/create',
+        {
+          date: data.date,
+          remetente: data.remetente,
+          destinatario: data.destinatario,
+          unidade: data.unidade,
+          n_ctrc: data.nctrc,
+          valor_ctrc: data.valorctrc,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('@ferlog/token')}`,
+          },
+        }
+      );
+      reset();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
