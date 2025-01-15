@@ -3,8 +3,45 @@ import { PageConteiner, SectionContainer } from './styled';
 import { RegisterNoteModal } from './registerNoteModal/registerNoteModal';
 import { DropDonwButtons } from '../UsersPage/styles';
 import { Trash } from 'phosphor-react';
+import { api } from '../../lib/axios';
+import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { userContext } from '../../context/UserContext';
+
+interface NotesProps {
+  id: string;
+  date: string;
+  remetente: string;
+  destinatario: string;
+  n_ctrc: string;
+  unidade: string;
+  valor_ctrc: string;
+}
 
 export function NotesPage() {
+  const { loged } = useContext(userContext);
+  const [notes, setNotes] = useState<NotesProps[]>([]);
+  const navigate = useNavigate();
+
+  async function getNotes() {
+    const response = await api.get('/notes', {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('@ferlog/token'),
+      },
+    });
+
+    setNotes(response.data.notes.notes);
+  }
+
+  useEffect(() => {
+    getNotes();
+  }, []);
+
+  if (!loged) {
+    navigate('/user');
+    return null;
+  }
+
   return (
     <PageConteiner>
       <SectionContainer>
@@ -32,32 +69,35 @@ export function NotesPage() {
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <Table.RowHeaderCell>Data</Table.RowHeaderCell>
-            <Table.Cell>nota</Table.Cell>
-            <Table.Cell>nota</Table.Cell>
-            <Table.Cell>nota</Table.Cell>
-            <Table.Cell>nota</Table.Cell>
-            <Table.Cell>nota</Table.Cell>
-            <Table.Cell>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                  <Button variant="surface">
-                    Opções
-                    <DropdownMenu.TriggerIcon />
-                  </Button>
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Item asChild>
-                    <DropDonwButtons variant="delete">
-                      <Trash size={15} />
-                      Excluir
-                    </DropDonwButtons>
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
-            </Table.Cell>
-          </Table.Row>
+          {notes &&
+            notes.map((note) => (
+              <Table.Row>
+                <Table.RowHeaderCell>{note.date}</Table.RowHeaderCell>
+                <Table.Cell>{note.remetente}</Table.Cell>
+                <Table.Cell>{note.destinatario}</Table.Cell>
+                <Table.Cell>{note.n_ctrc}</Table.Cell>
+                <Table.Cell>{note.unidade}</Table.Cell>
+                <Table.Cell>{note.valor_ctrc}</Table.Cell>
+                <Table.Cell>
+                  <DropdownMenu.Root>
+                    <DropdownMenu.Trigger>
+                      <Button variant="surface">
+                        Opções
+                        <DropdownMenu.TriggerIcon />
+                      </Button>
+                    </DropdownMenu.Trigger>
+                    <DropdownMenu.Content>
+                      <DropdownMenu.Item asChild>
+                        <DropDonwButtons variant="delete">
+                          <Trash size={15} />
+                          Excluir
+                        </DropDonwButtons>
+                      </DropdownMenu.Item>
+                    </DropdownMenu.Content>
+                  </DropdownMenu.Root>
+                </Table.Cell>
+              </Table.Row>
+            ))}
         </Table.Body>
       </Table.Root>
     </PageConteiner>
