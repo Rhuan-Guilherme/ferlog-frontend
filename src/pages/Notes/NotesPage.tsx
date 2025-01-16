@@ -37,6 +37,16 @@ export function NotesPage() {
     setNotes(response.data.notes.notes);
   }
 
+  async function deleteNotes(id: string) {
+    await api.delete(`/notesdelete/${id}`, {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('@ferlog/token'),
+      },
+    });
+
+    getNotes();
+  }
+
   useEffect(() => {
     getNotes();
   }, []);
@@ -110,7 +120,7 @@ export function NotesPage() {
                   Editar
                 </Button>
                 <Button
-                  onClick={() => console.log('excluir')}
+                  onClick={() => deleteNotes(note.id)}
                   variant="surface"
                   color="red"
                   style={{ cursor: 'pointer' }}
