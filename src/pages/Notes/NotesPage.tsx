@@ -101,6 +101,23 @@ export function NotesPage() {
                   {'R$ ' + serviceValue(note.valor_ctrc).toFixed(2)}
                 </Badge>
               </p>
+
+              <div>
+                <Button
+                  onClick={() => console.log('editar')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Editar
+                </Button>
+                <Button
+                  onClick={() => console.log('excluir')}
+                  variant="surface"
+                  color="red"
+                  style={{ cursor: 'pointer' }}
+                >
+                  Excluir
+                </Button>
+              </div>
             </CardsNotes>
           ))}
       </BoxNotes>

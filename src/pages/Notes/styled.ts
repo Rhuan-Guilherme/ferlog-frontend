@@ -63,5 +63,11 @@ export const CardsNotes = styled.div`
     &:last-child{
       margin-bottom: 0;
     }
+
+  }
+
+  div {
+    display: flex;
+    gap: 10px;
   }
 `
