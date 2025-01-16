@@ -67,7 +67,7 @@ export function NotesPage() {
             <Button>cadastrar</Button>
           </Dialog.Trigger>
 
-          <RegisterNoteModal />
+          <RegisterNoteModal getNotes={getNotes} />
         </Dialog.Root>
       </SectionContainer>
 

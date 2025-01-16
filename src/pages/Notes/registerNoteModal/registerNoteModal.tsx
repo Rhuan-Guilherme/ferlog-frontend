@@ -12,7 +12,11 @@ interface FormNoteProps {
   valorctrc: string;
 }
 
-export function RegisterNoteModal() {
+interface GetNotesProps {
+  getNotes: () => void;
+}
+
+export function RegisterNoteModal({ getNotes }: GetNotesProps) {
   const currentDate = new Date();
   const dateFormat = format(currentDate, 'dd/MM/yyyy');
 
@@ -41,6 +45,7 @@ export function RegisterNoteModal() {
         }
       );
       reset();
+      getNotes();
     } catch (error) {
       console.log(error);
     }
