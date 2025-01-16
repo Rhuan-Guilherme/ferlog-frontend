@@ -113,12 +113,18 @@ export function NotesPage() {
               </p>
 
               <div>
-                <Button
-                  onClick={() => console.log('editar')}
-                  style={{ cursor: 'pointer' }}
-                >
-                  Editar
-                </Button>
+                <Dialog.Root data-state={false}>
+                  <Dialog.Trigger>
+                    <Button
+                      onClick={() => console.log('editar')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      Editar
+                    </Button>
+                  </Dialog.Trigger>
+
+                  <RegisterNoteModal getNotes={getNotes} note={note} />
+                </Dialog.Root>
                 <Button
                   onClick={() => deleteNotes(note.id)}
                   variant="surface"
