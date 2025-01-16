@@ -86,7 +86,7 @@ export function RegisterNoteModal() {
             <Text as="div" size="2" mb="1" weight="bold">
               Valor do CTRC
             </Text>
-            <TextField.Root {...register('valorctrc')} />
+            <TextField.Root type="number" {...register('valorctrc')} />
           </label>
         </Flex>
 

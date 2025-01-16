@@ -1,8 +1,12 @@
-import { Button, Dialog, DropdownMenu, Table } from '@radix-ui/themes';
-import { PageConteiner, SectionContainer } from './styled';
+import { Badge, Button, Dialog } from '@radix-ui/themes';
+import {
+  BoxNotes,
+  CardsNotes,
+  PageConteiner,
+  SectionContainer,
+} from './styled';
 import { RegisterNoteModal } from './registerNoteModal/registerNoteModal';
-import { DropDonwButtons } from '../UsersPage/styles';
-import { Trash } from 'phosphor-react';
+
 import { api } from '../../lib/axios';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
@@ -42,6 +46,18 @@ export function NotesPage() {
     return null;
   }
 
+  function serviceValue(value: string) {
+    const valueServiceToNumber = Number(value);
+    const valueWithTax = valueServiceToNumber * 0.2;
+    if (valueWithTax <= 80) {
+      return 80;
+    } else if (valueWithTax >= 320) {
+      return 320;
+    } else {
+      return valueWithTax;
+    }
+  }
+
   return (
     <PageConteiner>
       <SectionContainer>
@@ -55,51 +71,39 @@ export function NotesPage() {
         </Dialog.Root>
       </SectionContainer>
 
-      <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeaderCell>Data</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Remetente</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Destinatario</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>N° CTRC</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Unidade</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Valor do CTRC</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell>Ação</Table.ColumnHeaderCell>
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {notes &&
-            notes.map((note) => (
-              <Table.Row>
-                <Table.RowHeaderCell>{note.date}</Table.RowHeaderCell>
-                <Table.Cell>{note.remetente}</Table.Cell>
-                <Table.Cell>{note.destinatario}</Table.Cell>
-                <Table.Cell>{note.n_ctrc}</Table.Cell>
-                <Table.Cell>{note.unidade}</Table.Cell>
-                <Table.Cell>{note.valor_ctrc}</Table.Cell>
-                <Table.Cell>
-                  <DropdownMenu.Root>
-                    <DropdownMenu.Trigger>
-                      <Button variant="surface">
-                        Opções
-                        <DropdownMenu.TriggerIcon />
-                      </Button>
-                    </DropdownMenu.Trigger>
-                    <DropdownMenu.Content>
-                      <DropdownMenu.Item asChild>
-                        <DropDonwButtons variant="delete">
-                          <Trash size={15} />
-                          Excluir
-                        </DropDonwButtons>
-                      </DropdownMenu.Item>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Root>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-        </Table.Body>
-      </Table.Root>
+      <BoxNotes>
+        {notes &&
+          notes.map((note) => (
+            <CardsNotes>
+              <h3>{note.date}</h3>
+              <p>
+                <span>Remetente:</span> {note.remetente}
+              </p>
+              <p>
+                <span>Destinatario:</span> {note.destinatario}
+              </p>
+              <p>
+                <span>Unidade:</span> {note.unidade}
+              </p>
+              <p>
+                <span>N° CTRC:</span> {note.n_ctrc}
+              </p>
+              <p>
+                <span>Valor CTRC:</span> R$ {note.valor_ctrc}
+              </p>
+              <p>
+                <span>Valor do serviço:</span>
+                <Badge
+                  color="green"
+                  variant="surface"
+                  style={{ marginLeft: '5px' }}
+                >
+                  {'R$ ' + serviceValue(note.valor_ctrc).toFixed(2)}
+                </Badge>
+              </p>
+            </CardsNotes>
+          ))}
+      </BoxNotes>
     </PageConteiner>
   );
 }

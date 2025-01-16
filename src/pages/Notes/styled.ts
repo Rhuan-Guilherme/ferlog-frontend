@@ -30,3 +30,38 @@ export const SectionContainer = styled.section`
     cursor: pointer;
   }
 `
+
+export const BoxNotes = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+`
+
+
+export const CardsNotes = styled.div`
+  min-width: 300px;
+  border: 1px solid ${props => props.theme.gray['200']};
+  padding: 1rem;
+  border-radius: 8px;
+
+  h3{
+    margin-bottom: 10px;
+  }
+
+  p{
+    margin-bottom: 10px;
+    color: ${props => props.theme.gray['500']};
+
+
+    span{
+      color: ${props => props.theme.gray['900']};
+      font-weight: 500;
+    }
+
+    &:last-child{
+      margin-bottom: 0;
+    }
+  }
+`
