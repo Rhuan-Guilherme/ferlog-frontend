@@ -1,4 +1,4 @@
-import { Badge, Button, Dialog } from '@radix-ui/themes';
+import { Badge, Button, Dialog, Tooltip } from '@radix-ui/themes';
 import {
   BoxNotes,
   CardsNotes,
@@ -20,6 +20,10 @@ interface NotesProps {
   n_ctrc: string;
   unidade: string;
   valor_ctrc: string;
+  user: {
+    name: string;
+    email: string;
+  };
 }
 
 export function NotesPage() {
@@ -85,7 +89,12 @@ export function NotesPage() {
         {notes &&
           notes.map((note) => (
             <CardsNotes>
-              <h3>{note.date}</h3>
+              <h3>
+                <Tooltip content={note.user.name}>
+                  <span>{note.user.name.split(' ')[0]}</span>
+                </Tooltip>
+                - {note.date}
+              </h3>
               <p>
                 <span>Remetente:</span> {note.remetente}
               </p>
