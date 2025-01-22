@@ -1,4 +1,11 @@
-import { Badge, Button, Dialog, Tooltip } from '@radix-ui/themes';
+import {
+  Badge,
+  Button,
+  Dialog,
+  Flex,
+  Popover,
+  Tooltip,
+} from '@radix-ui/themes';
 import {
   BoxNotes,
   CardsNotes,
@@ -11,10 +18,17 @@ import { api } from '../../lib/axios';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { userContext } from '../../context/UserContext';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
+import { Faders } from 'phosphor-react';
 
 interface NotesProps {
   id: string;
   date: string;
+  creatd_at: string;
   remetente: string;
   destinatario: string;
   n_ctrc: string;
@@ -27,6 +41,8 @@ interface NotesProps {
 }
 
 export function NotesPage() {
+  const [dateFist, setDateFist] = useState<Dayjs | null>(null);
+  const [dateLast, setDateLast] = useState<Dayjs | null>(null);
   const { loged } = useContext(userContext);
   const [notes, setNotes] = useState<NotesProps[]>([]);
   const navigate = useNavigate();
@@ -72,17 +88,66 @@ export function NotesPage() {
     }
   }
 
+  const fetchNotas = async (dateFist: Dayjs, dateLast: Dayjs) => {
+    try {
+      const response = await api.get('/notes', {
+        params: { dateFist, dateLast },
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('@ferlog/token'),
+        },
+      });
+      setNotes(response.data.notes.notes);
+    } catch (error) {
+      console.error('Erro ao buscar notas:', error);
+    }
+  };
+
+  const handleFilter = () => {
+    if (dateFist && dateLast) {
+      console.log(dateFist.toISOString(), dateLast.toISOString());
+      fetchNotas(dateFist, dateLast);
+    }
+  };
+
   return (
     <PageConteiner>
       <SectionContainer>
         <h2>Notas</h2>
-        <Dialog.Root>
-          <Dialog.Trigger>
-            <Button>cadastrar</Button>
-          </Dialog.Trigger>
-
-          <RegisterNoteModal getNotes={getNotes} />
-        </Dialog.Root>
+        <Flex gap={'3'}>
+          <Dialog.Root>
+            <Dialog.Trigger>
+              <Button>cadastrar</Button>
+            </Dialog.Trigger>
+            <RegisterNoteModal getNotes={getNotes} />
+          </Dialog.Root>
+          <Popover.Root>
+            <Popover.Trigger>
+              <Button variant="soft">
+                <Faders size={20} />
+                Fitro{' '}
+              </Button>
+            </Popover.Trigger>
+            <Popover.Content width="270px">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker', 'DatePicker']}>
+                  <Flex direction={'column'} gap={'3'}>
+                    <DatePicker
+                      label="Data Início"
+                      value={dateFist}
+                      onChange={(newValue) => setDateFist(newValue)}
+                    />
+                    <DatePicker
+                      label="Data Fim"
+                      value={dateLast}
+                      onChange={(newValue) => setDateLast(newValue)}
+                    />
+                    <Button onClick={handleFilter}>Buscar</Button>
+                  </Flex>
+                </DemoContainer>
+              </LocalizationProvider>
+            </Popover.Content>
+          </Popover.Root>
+        </Flex>
       </SectionContainer>
 
       <BoxNotes>
@@ -93,7 +158,7 @@ export function NotesPage() {
                 <Tooltip content={note.user.name}>
                   <span>{note.user.name.split(' ')[0]}</span>
                 </Tooltip>
-                - {note.date}
+                - {dayjs(note.creatd_at).format('DD/MM/YYYY')}
               </h3>
               <p>
                 <span>Remetente:</span> {note.remetente}
